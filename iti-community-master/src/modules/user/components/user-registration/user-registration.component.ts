@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserQueries } from '../../services/user.queries';
 import { UserService } from '../../services/user.service';
 
 class UserRegistrationFormModel {
@@ -22,7 +23,8 @@ export class UserRegistrationComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private userQueries : UserQueries
   ) { }
 
   ngOnInit(): void {
@@ -32,15 +34,25 @@ export class UserRegistrationComponent implements OnInit {
 
     // TODO  Vérifier que la confirmation de mot de passe correspond au mot de passe
     if (this.form.form.invalid || this.model.password !== this.model.confirmPassword) {
+      alert('Les mots de passe sont différents')
       return;
     }
-
+    
+    
     // TODO Enregistrer l'utilisateur via le UserService
-    this.goToLogin();
+    const promise = Promise.resolve(this.userQueries.exists(this.model.username))
+    promise.then((value) =>{
+        alert(value)
+        if(value){
+          this.userService.register(this.model.username,this.model.password)
+          this.goToLogin();
+        }
+        return ;   
+      });
+      
   }
 
   goToLogin() {
-    // TODO rediriger l'utilisateur sur "/splash/login"
     this.router.navigate(['/splash/login'])
   }
 }

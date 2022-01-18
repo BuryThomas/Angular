@@ -7,7 +7,7 @@
           TODO Ajouter l'input pour username avec le data-binding approprié   
           <input class="ant-input" type="text" name="username" id="username" #username="ngModel">-->
           <input class="ant-input" type="text" name="username" id="username" [(ngModel)]="model.username"
-          #username="ngModel">
+          #username="ngModel" required>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -18,11 +18,11 @@
           <input class="ant-input" type="password" name="password" id="password" #password="ngModel">
          -->
          <input class="ant-input" type="password" name="password" id="password" [(ngModel)]="model.password"
-         #password="ngModel">
+         #password="ngModel" required>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-control>
+      <nz-form-control nzErrorTip="Message de validation">
         <button class="login-button" type="submit" nz-button nzType="default" [disabled]="f.form.invalid"
           (submit)="submit()">Connexion</button>
       </nz-form-control>
